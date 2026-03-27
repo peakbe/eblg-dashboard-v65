@@ -5,7 +5,7 @@
 const PROXY = "https://eblg-proxy.onrender.com/proxy?url=";
 
 // METAR via proxy (clé AVWX cachée côté Render)
-const METAR_URL = PROXY + encodeURIComponent("https://avwx.rest/api/metar/EBLG?format=json");
+const METAR_URL = "https://eblg-proxy.onrender.com/metar";
 
 // FIDS via proxy Render
 const FIDS_ARR = PROXY + encodeURIComponent("https://fids.liegeairport.com/api/flights/Arrivals");
