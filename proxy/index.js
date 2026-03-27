@@ -22,14 +22,21 @@ app.get("/proxy", async (req, res) => {
 });
 
 /* ----------------------------------------------------------
-   METAR SÉCURISÉ (nouveau)
+   METAR SÉCURISÉ
 ---------------------------------------------------------- */
 app.get("/metar", async (req, res) => {
   try {
     const url = `https://avwx.rest/api/metar/EBLG?format=json&token=${process.env.AVWX_API_KEY}`;
 
-    const r = await fetch(url);
+    const r = await fetch(url, {
+      headers: {
+        "Accept": "application/json",
+        "User-Agent": "EBLG-Dashboard/1.0"
+      }
+    });
+
     if (!r.ok) {
+      console.error("AVWX error:", await r.text());
       return res.status(500).json({ error: "Erreur AVWX" });
     }
 
@@ -40,10 +47,5 @@ app.get("/metar", async (req, res) => {
     console.error("Erreur METAR :", err);
     res.status(500).json({ error: "Erreur serveur METAR" });
   }
-});
-
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log("Proxy running on port", PORT);
 });
 
